@@ -1,0 +1,23 @@
+{
+  "name": "frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^2.4.2",
+    "svelte": "^4.0.5",
+    "vite": "^4.4.5"
+  },
+  "dependencies": {
+    "d3-array": "^3.2.4",
+    "d3-scale": "^4.0.2",
+    "d3-selection": "^3.0.0",
+    "d3-shape": "^3.2.0",
+    "d3-time-format": "^4.1.0"
+  }
+}
