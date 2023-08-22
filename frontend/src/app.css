@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Work+Sans:400|Lato:400|Inconsolata:400');
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -5,7 +6,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #f2f4f6;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -14,21 +15,9 @@
   -webkit-text-size-adjust: 100%;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  width: 100%;
 }
 
 h1 {
@@ -36,34 +25,11 @@ h1 {
   line-height: 1.1;
 }
 
-.card {
-  padding: 2em;
-}
-
 #app {
-  max-width: 1280px;
+  /* max-width: 1280px; */
   margin: 0 auto;
-  padding: 2rem;
+  /* padding: 2rem; */
   text-align: center;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
 }
 
 @media (prefers-color-scheme: light) {
@@ -78,3 +44,111 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+:root {
+  /* colors */
+  --green: #00ebc7;
+  --red: #FF5470;
+  --yellow: #fde24f;
+  --black: #1b2d45;
+  --darkBlue: #00214d;
+  --darkGrey: #222;
+  --grey: #bfbfbf;
+  --lightGrey: #f2f4f6;
+  --white: white;
+
+  /* color intentions */
+  --primary: var(--yellow);
+  --danger: var(--red);
+  --background: var(--lightGrey);
+  --textColor: var(--black);
+  --lineColor: var(--grey);
+  --cardBg: var(--white);
+  --headerBackground: var(--white);
+  --footerBackground: var(--darkBlue);
+  --footerTextColor: var(--lightGrey);
+  --headerTextColor: var(--black);
+  --buttonColor: var(--primary);
+  --buttonTextColor: var(--textColor);
+  --borderBottom: solid 2px var(--primary);
+
+
+
+  /* Styles */
+  --line: solid 1px var(--lineColor);
+
+  /* Typography */
+  --headingFont: 'Lato', monospace;
+  --bodyFont: 'Inconsolata', sans-serif;
+  --baseFontSize: 100%;
+  /* font sizes */
+  --h1: 3.052em;
+  --h2: 2.441em;
+  --h3: 1.953em;
+  --h4: 1.563em;
+  --h5: 1.25em;
+  --smallText: 0.8em;
+
+  /* Elevation 1: base, 4: xl*/
+  --shadow-s: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+  /* Positioning */
+  --containerPadding: 2.5%;
+  --headerHeight: 3rem;
+  /* --borderRadius: 10px; */
+  --borderRadius: 0px;
+
+  /* Media Queries (not supported yet) */
+  /* --xsmall: 340;
+  --small: 500px;
+  --med: 800;
+  --large: 960;
+  --wide: 1200; */
+
+  }
+
+  html {
+    box-sizing: border-box;
+    font-size: var(--baseFontSize);
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+
+body {
+  font-family: var(--bodyFont);
+  font-weight: 400;
+  line-height: 1.75;
+  background: var(--background);
+  color: var(--textColor);
+}
+
+h1, h2, h3, h4, h5 {
+  margin: 3rem 0 1.38rem;
+  font-family: var(--headingFont);
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+h1 {
+  margin-top: 0;
+  font-size: var(--h1);
+}
+
+h2 {font-size: var(--h2);}
+
+h3 {font-size: var(--h3);}
+
+h4 {font-size: var(--h4);}
+
+h5 {font-size: var(--h5);}
+
+small, .text_small {font-size: var(--smallText);}
+
