@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-VERSION = "0.0.263"
+VERSION = "0.0.264"
 DESCRIPTION = "gpuv"
 LONG_DESCRIPTION = "gpuv longer description"
 
