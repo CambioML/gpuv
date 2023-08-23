@@ -10,6 +10,7 @@
     try {
       const response = await fetch("/nvml");
       const data = await response.json();
+      console.log("data", data);
       return data.device_status.map((device) => ({
         timestamp: device.timestamp,
         gpu: device.utilization.gpu,
