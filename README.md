@@ -1,12 +1,22 @@
 # gpuv
 Visual dashboard on top of nvidia-smi/gpustat.
 
+## pip install and use
+```
+pip3 install gpuv
+python gpuv -s
+```
+
+## dev setup and use
+```
+pip3 install poetry
+poetry install --no-root
+python -m gpuv -s
+```
+
 ## Release python package:
 
 ```
-# delete dist/ build/ gpuv.egg-info/
-# update version number in setup.py
-python setup.py sdist bdist_wheel
-twine upload --repository testpypi dist/*
+poetry publish --build
 ```
-Then find new version [here](https://pypi.org/project/gpuview/#history) and install.
+Then find new version [here](https://pypi.org/project/gpuv/#history) and install.
