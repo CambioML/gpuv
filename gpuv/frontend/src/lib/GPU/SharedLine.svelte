@@ -154,7 +154,7 @@
   }
 
   function handleHover(event) {
-    if ($gpuData.length > 0) {
+    if (data.length > 0) {
       const pEvent = pointer(event);
       let [mouseX, mouseY] = pEvent;
       mouseX = mouseX + margin.left * 0;
@@ -170,8 +170,6 @@
     // hideTooltip()
   }
 
-  // $: tooltipX = 0;
-  // $: tooltipY = 0;
   $: tooltipX = xScale(xAccessor($hoveredIndexData)) + margin.left;
   $: tooltipY = yScale($hoveredIndexData[y]) + margin.top;
   $: tooltipText = $hoveredIndexData[y];
