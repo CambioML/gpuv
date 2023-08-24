@@ -4,7 +4,7 @@ version = "0.0.3"
 description = "gpu visualization"
 authors = ["CambioML <wanwanaiai45@gmail.com>"]
 maintainers = [
-    "Jared Wilber <jared@cambioml.com”>,
+    "Jared Wilber <jared@cambioml.com>",
     "Jojo Ortiz <ortiz.jroman@gmail.com>",
     "Rachel Hu <goldpiggy@berkeley.edu>"
 ]
