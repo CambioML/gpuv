@@ -33,6 +33,7 @@ class DeviceStatus:
         self.temp_fan = self.get_temperature_and_fan(handle)
         self.power = self.get_power(handle)
         self.identification = self.get_identification(handle)
+        self.memory = self.get_memory_info(handle)
 
     def get_ecc_errors(
         self, handle: pynvml.nvmlDeviceGetHandleByIndex
@@ -189,6 +190,29 @@ class DeviceStatus:
             "name": pynvml.nvmlDeviceGetName(handle),
         }
 
+    def get_memory_info(
+        self, handle: pynvml.nvmlDeviceGetHandleByIndex
+    ) -> Dict[str, int]:
+        """
+        Get memory info.
+
+        Args:
+            handle (pynvml.nvmlDeviceGetHandleByIndex): Device handle.
+
+        Returns:
+            dict: Memory info.
+        """
+        total_memory = pynvml.nvmlDeviceGetMemoryInfo(handle).total / (1024 ** 2)
+        free_memory = pynvml.nvmlDeviceGetMemoryInfo(handle).free / (1024 ** 2)
+        used_memory = pynvml.nvmlDeviceGetMemoryInfo(handle).used / (1024 ** 2)
+
+        return {
+            "total_memory": total_memory,
+            "free_memory": free_memory,
+            "used_memory": used_memory,
+            "memory_usage": used_memory / total_memory * 100 if total_memory > 0 else "Not Supported",
+        }
+
     def to_dict(self) -> Dict[str, Any]:
         """
         Convert to dictionary.
@@ -206,6 +230,7 @@ class DeviceStatus:
             "temp_fan": self.temp_fan,
             "power": self.power,
             "identification": self.identification,
+            "memory": self.memory,
         }
 
 
