@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gpuv"
-version = "0.0.5"
+version = "0.0.6"
 description = "gpu visualization"
 authors = ["CambioML <wanwanaiai45@gmail.com>"]
 maintainers = [
@@ -16,8 +16,12 @@ python = "^3.10"
 pynvml = "11.5.0"
 flask = "2.3.3"
 flask-cors = "4.0.0"
+typer = "0.9.0"
 
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+gpuv = "gpuv.cli:cli"
