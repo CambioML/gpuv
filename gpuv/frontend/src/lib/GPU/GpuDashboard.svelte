@@ -2,23 +2,27 @@
   import { writable } from "svelte/store";
   import { onMount } from "svelte";
   import SharedLine from "./SharedLine.svelte";
-  // import { gpuData } from "./data.js";
 
   export const gpuSvelteStore = writable([]);
+  let title = "";
+  let serial_number = "";
+  let vbios_version = "";
 
   async function fetchGpuData() {
     try {
       const response = await fetch("/nvml");
       const data = await response.json();
-      console.log("data", data);
+      title = data.device_status[0].identification.name;
+      serial_number = data.device_status[0].identification.serial_number;
+      vbios_version = data.device_status[0].identification.vbios_version;
       return data.device_status.map((device) => ({
         timestamp: device.timestamp,
         gpu: device.utilization.gpu,
         memory: device.utilization.memory,
         temperature: device.temp_fan.temperature,
         fan_speed: device.temp_fan.fan_speed,
-        current_graphics_clock: device.clocks_pstate.current_graphics_clock,
-        current_memory_clock: device.clocks_pstate.current_memory_clock,
+        memory_usage: device.memory.memory_usage.toFixed(3),
+        power_usage: device.power.power_usage,
       }));
     } catch (error) {
       console.error("Failed to fetch GPU data", error);
@@ -28,7 +32,6 @@
 
   onMount(() => {
     // Fetch data every 1000ms
-    console.log("mounting!");
     const interval = setInterval(async () => {
       const newData = await fetchGpuData();
       gpuSvelteStore.update((data) => [...data, ...newData]);
@@ -38,27 +41,28 @@
   });
 
   let vals = [
-    { y: "gpu", title: "GPU", yAxis: "GPU" },
-    { y: "memory", title: "memory", yAxis: "memory" },
-    { y: "temperature", title: "temperature", yAxis: "temperature" },
-    { y: "fan_speed", title: "fan_speed", yAxis: "fan_speed" },
+    { y: "gpu", title: "GPU", yAxis: "%" },
+    { y: "memory", title: "Memory", yAxis: "%" },
+    { y: "temperature", title: "Temperature", yAxis: "C°" },
+    { y: "fan_speed", title: "Fan Speed", yAxis: "rpm" },
     {
-      y: "current_graphics_clock",
-      title: "current_graphics_clock",
-      yAxis: "current_graphics_clock",
+      y: "memory_usage",
+      title: "Memory Usage",
+      yAxis: "%",
     },
     {
-      y: "current_memory_clock",
-      title: "current_memory_clock",
-      yAxis: "current_memory_clock",
+      y: "power_usage",
+      title: "Power Usage",
+      yAxis: "%",
     },
   ];
 
-  $: console.log($gpuSvelteStore);
+  // $: console.log($gpuSvelteStore);
 </script>
 
-<h3>GPU Monitoring</h3>
-
+<h3>{title}</h3>
+<h4>Serial Number: {serial_number}</h4>
+<h4>Vbios Version: {vbios_version}</h4>
 <div id="chart">
   {#each vals as d}
     <SharedLine
@@ -86,5 +90,9 @@
     width: 90vw;
     margin: 3rem auto;
     justify-content: center;
+  }
+  h4 {
+    text-align: center;
+    margin: 4px 0;
   }
 </style>
