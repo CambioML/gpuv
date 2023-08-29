@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gpuv"
-version = "0.0.4"
+version = "0.0.5"
 description = "gpu visualization"
 authors = ["CambioML <wanwanaiai45@gmail.com>"]
 maintainers = [
