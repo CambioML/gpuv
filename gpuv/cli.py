@@ -11,6 +11,11 @@ def start():
     flask_app.run(port=5000)
 
 
+@app.command()
+def stop():
+    print("Stopping server...")
+
+
 def cli():
     app()
 
