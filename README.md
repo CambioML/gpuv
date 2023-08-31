@@ -4,7 +4,7 @@ Visual dashboard on top of nvidia-smi/gpustat.
 ## pip install and use
 ```
 pip3 install gpuv
-python gpuv -s
+gpuv start
 ```
 
 ## dev setup and use
