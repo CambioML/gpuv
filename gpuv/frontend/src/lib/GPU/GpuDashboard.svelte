@@ -43,8 +43,8 @@
   let vals = [
     { y: "gpu", title: "GPU", yAxis: "%" },
     { y: "memory", title: "Memory", yAxis: "%" },
-    { y: "temperature", title: "Temperature", yAxis: "C°" },
-    { y: "fan_speed", title: "Fan Speed", yAxis: "rpm" },
+    { y: "temperature", title: "Temperature (C°)", yAxis: "C°" },
+    { y: "fan_speed", title: "Fan Speed (rpm)", yAxis: "rpm" },
     {
       y: "memory_usage",
       title: "Memory Usage",
@@ -56,8 +56,6 @@
       yAxis: "%",
     },
   ];
-
-  // $: console.log($gpuSvelteStore);
 </script>
 
 <h3>{title}</h3>
@@ -71,12 +69,14 @@
       y={d.y}
       yAxisLine="false"
       xAxisText="Timestamp"
-      yAxisText={d.yAxis}
+      yAxisText={""}
       title={d.title}
       tooltipColor="black"
       tooltipFontSize="15"
       subtitle=""
       points="false"
+      tick_opacity=".1"
+      yTicks="true"
     />
   {/each}
 </div>

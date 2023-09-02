@@ -3,21 +3,25 @@
   import { extent } from "d3-array";
   import { scaleLinear, scaleTime, scaleOrdinal } from "d3-scale";
   import { timeFormat } from "d3-time-format";
-  import { line, curveBasis, area } from "d3-shape";
+  import { line, curveStep, area } from "d3-shape";
   import { draw } from "svelte/transition";
   import { multiFormat } from "./timeUtils.js";
   import { onMount } from "svelte";
   import { bisector } from "d3-array";
-  import { pointer, select, selectAll } from "d3-selection";
-  import { hoveredIndexData, gpuData } from "./data.js";
+  import { pointer, selectAll } from "d3-selection";
+  import { hoveredIndexData } from "./data.js";
+  import { format } from "d3-format";
+
+  const formatTime = timeFormat("%I:%M:%S");
+  const formatPerc = format(".0%");
 
   export let data;
   export let x = "myX";
   export let y = "myY";
   export let marginTop = 40;
   export let marginBottom = 70;
-  export let marginLeft = 90;
-  export let marginRight = 30;
+  export let marginLeft = 75;
+  export let marginRight = 20;
   export let stroke = "#fde24f";
   export let tooltipColor = "red";
   export let tooltipFontSize = "12";
@@ -67,6 +71,8 @@
 
   $: xAccessor = useTimeScale ? (d) => new Date(d[x]) : (d) => d[x];
 
+  let ticks = [];
+
   $: xScale = useTimeScale
     ? scaleTime()
         .domain(extent(data.map(xAccessor)))
@@ -75,25 +81,20 @@
         .domain(extent(data.map(xAccessor)))
         .range([0, innerWidth]);
 
-  function getCombinedExtent(data, yValues) {
-    let minVals = yValues.map((y) => extent(data.map((d) => d[y]))[0]);
-    let maxVals = yValues.map((y) => extent(data.map((d) => d[y]))[1]);
-    return [Math.min(...minVals), Math.max(...maxVals)];
-  }
+  // Calculate the spacing needed to get approximately 8 ticks.
+  $: spacing = Math.ceil(xScale.ticks().length / 8);
+  // Filter ticks by spacing to get a maximum of 8.
+  $: ticks = xScale.ticks().filter((_, index) => index % spacing === 0);
 
-  $: yScaleDomain = isArrayY
-    ? getCombinedExtent(data, yValues)
-    : extent(data.map((d) => d[y]));
-  $: yScale = scaleLinear().domain(yScaleDomain).range([innerHeight, 0]);
+  $: yScale = scaleLinear().domain([0, 100]).range([innerHeight, 0]);
 
   $: colorScale = scaleOrdinal().domain([1, 2]).range(colors);
 
-  $: pathsLine = yValues.map(
-    (yValue) =>
-      line()
-        .x((d) => xScale(useTimeScale ? new Date(d[x]) : d[x]))
-        .y((d) => yScale(d[yValue]))
-    //   .curve(curveBasis)
+  $: pathsLine = yValues.map((yValue) =>
+    line()
+      .x((d) => xScale(useTimeScale ? new Date(d[x]) : d[x]))
+      .y((d) => yScale(d[yValue]))
+      .curve(curveStep)
   );
 
   $: pathsArea = yValues.map(
@@ -107,6 +108,7 @@
 
   let formatDate = timeScaleFormat ? timeFormat(timeScaleFormat) : multiFormat;
   let rendered = animateRender === "true" ? false : true;
+
   onMount(() => {
     rendered = true;
   });
@@ -200,7 +202,7 @@
         </linearGradient>
       </defs>
 
-      {#each xScale.ticks() as tick}
+      {#each ticks as tick}
         <g transform={`translate(${xScale(tick)}, ${innerHeight})`}>
           {#if xTicks === "true"}
             <line
@@ -215,39 +217,41 @@
             />
           {/if}
           <text
-            class="axis-text"
+            class="axis-text x-axis-text"
             y={useTimeScale ? "15" : "25"}
-            x="0"
-            text-anchor="end"
-            transform={useTimeScale ? "rotate(0)" : ""}
+            x={useTimeScale ? 2 : 0}
+            text-anchor="start"
+            transform={useTimeScale ? "rotate(90)" : ""}
           >
-            {useTimeScale ? formatDate(tick) : tick}
+            {useTimeScale ? formatTime(tick) : tick}
           </text>
         </g>
       {/each}
 
-      {#each yScale.ticks() as tick}
-        <g transform={`translate(0, ${yScale(tick)})`}>
-          {#if yTicks === "true"}
-            <line
-              class="axis-tick"
-              x1={0}
-              x2={innerWidth}
-              y1="0"
-              y2={0}
-              stroke="red"
-              stroke-dasharray="4"
-              opacity={tick_opacity}
-            />
-          {/if}
-          <text
-            class="axis-text"
-            x="-5"
-            y="0"
-            text-anchor="end"
-            dominant-baseline="middle">{tick}</text
-          >
-        </g>
+      {#each yScale.ticks() as tick, i}
+        {#if i % 2 === 0}
+          <g transform={`translate(0, ${yScale(tick)})`}>
+            {#if yTicks === "true"}
+              <line
+                class="axis-tick"
+                x1={0}
+                x2={innerWidth}
+                y1="0"
+                y2={0}
+                stroke="black"
+                stroke-dasharray="4"
+                opacity={tick_opacity}
+              />
+            {/if}
+            <text
+              class="axis-text"
+              x="-5"
+              y="0"
+              text-anchor="end"
+              dominant-baseline="middle">{formatPerc(tick / 100)}</text
+            >
+          </g>
+        {/if}
       {/each}
 
       {#each yValues as yValue, i}
@@ -418,6 +422,10 @@
   .axis-text {
     font-family: Work Sans;
     font-size: 12px;
+  }
+
+  .x-axis-text {
+    font-size: 11px;
   }
 
   .inner-path {
