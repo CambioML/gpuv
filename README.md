@@ -2,7 +2,8 @@
 
 gpuv (gpu _visual_) is a python library that provides an interactive dashboard to monitor your gpu usage:
 
-[gif]
+![](https://github.com/CambioML/gpuv/gpudemo.gif)
+
 
 ## Installation
 
