@@ -18,7 +18,7 @@ pip3 install gpuv
 To use `gpuv`, simply run the start command from the cli:
 
 ```
-python gpuv -s
+gpuv start
 ```
 
 This will launch the interface on another port. Navigate there to monitor your gpu usage live.
